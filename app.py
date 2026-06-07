@@ -130,6 +130,8 @@ Rules:
 - Include toll calculations.
 - Include checkpoints.
 - Include food recommendations.
+- If the distance is less than 1750 KM, make the route with one night stay only.
+- If the distance is less than 70 KM, make the route with no night stay - only single day journey.
 - Return ONLY valid JSON.
 - No markdown.
 - No explanations.
@@ -140,6 +142,8 @@ JSON STRUCTURE:
 
 Generate a realistic trip from {source} to {dest}. Get accurate  list for each tolls (car/lmv) and fuel prices and KMs. 
 The data should be as accurate as possible. Suggest the most popular route possible.
+
+
 
 """
 
@@ -200,7 +204,7 @@ def plan():
         )
 
         content = response.choices[0].message.content
-
+        print(content)
         if not content:
             return jsonify({
                 "error": "AI returned an empty response."
@@ -224,10 +228,3 @@ def plan():
             "error": str(e)
         }), 500
 
-
-if __name__ == "__main__":
-    app.run(
-        debug=True,
-        host="0.0.0.0",
-        port=5000
-    )
